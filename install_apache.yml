@@ -8,12 +8,20 @@
     apt:
       update_cache: yes
 
-  - name: Remove Apache2 package
+  - name: Install Apache2 package
     apt:
       name: apache2
       state: latest
+    when: ansible_distribution_version == "20.04"
 
-  - name: Remove PHP Support for Apache
+  - name: Install PHP Support for Apache
     apt:
       name: libapache2-mod-php
       state: latest
+    when: ansible_distribution_version == "20.04"
+
+  - name: Install Midnight Commander
+    apt:
+      name: mc
+      state: latest
+    when: ansible_distribution_version == "18.04"
