@@ -20,3 +20,13 @@
       state: latest
       update_cache: yes
     when: ansible_distribution_version == "18.04"
+
+- hosts: file_servers
+  become: true
+  tasks:
+
+    - name: Install Samba
+      apt:
+        name:
+          - samba
+        state: latest
