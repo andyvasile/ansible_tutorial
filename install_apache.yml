@@ -1,22 +1,39 @@
 ---
-
+ 
 - hosts: all
   become: true
   tasks:
 
-  - name: Install Apache2 and PHP package on Ubuntu 20 and MC on Ubuntu 18
+  - name: update repository index
     apt:
-      name: 
-        - apache2
-        - libapache2-mod-php
-      state: latest
       update_cache: yes
-    when: ansible_distribution_version == "20.04"
+    when: ansible_distribution == "Ubuntu"
 
-  - name: Install Midnight Commander on Ubuntu 18
+  - name: install apache2 package
     apt:
-      name: 
-        - mc
+      name: apache2
       state: latest
+    when: ansible_distribution == "Ubuntu"
+ 
+  - name: add php support for apache
+    apt:
+      name: libapache2-mod-php
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+
+  - name: update repository index
+    dnf:
       update_cache: yes
-    when: ansible_distribution_version == "18.04"
+    when: ansible_distribution == "CentOS"
+
+  - name: install apache2 package
+    dnf:
+      name: httpd
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+  - name: add php support for apache
+    dnf:
+      name: php
+      state: latest
+    when: ansible_distribution == "CentOS"
