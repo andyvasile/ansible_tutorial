@@ -4,19 +4,30 @@
   become: true
   pre_tasks:
 
-  - name: Install updates (CentOS)
+  - name: Update Repo (CentOS)
     tags: always
     dnf:
-      update_only: yes
       update_cache: yes
+    changed_when: false  
     when: ansible_distribution == "CentOS"
 
-  - name: Install updates (Ubuntu)
+  - name: Update Repo (Ubuntu)
     tags: always
     apt:
-      upgrade: dist
       update_cache: yes
+    changed_when: false
     when: ansible_distribution == "Ubuntu"
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Add SSH Key for Andy
+    tags: always
+    authorized_key:
+      user: andy
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMcCiSUX5fksj9qWKEr4wIc7k8j38RO/WaDkJ/JlBi/u Current Ansible Key"
+
 
 - hosts: workstations
   become: true
